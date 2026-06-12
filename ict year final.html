@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSC ICT Revision Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e29;
+    --border: #252935;
+    --text: #e2e6f0;
+    --muted: #6b7490;
+    --ch1: #7c6af5;
+    --ch1-dim: #1e1a3a;
+    --ch2: #34c98a;
+    --ch2-dim: #0d2b1f;
+    --ch3: #f5a623;
+    --ch3-dim: #2e1f06;
+    --ch4: #f06a6a;
+    --ch4-dim: #2e1010;
+    --accent: #f5a623;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .hero {
+    padding: 48px 24px 36px;
+    max-width: 860px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* PROGRESS BAR */
+  .ch-legend {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* TIMELINE BAR */
+  .timeline-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 14px;
+    gap: 2px;
+  }
+  .tb-seg { border-radius: 2px; }
+
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* DAY HEADER */
+  .day-block { margin-top: 36px; }
+  .day-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .day-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .day-subtitle { color: var(--muted); font-size: 13px; }
+  .day-rule { flex: 1; height: 1px; background: var(--border); }
+
+  /* SESSION CARD */
+  .session {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .session::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .session.ch1::before { background: var(--ch1); }
+  .session.ch2::before { background: var(--ch2); }
+  .session.ch3::before { background: var(--ch3); }
+  .session.ch4::before { background: var(--ch4); }
+  .session.heavy { background: var(--surface2); border-color: #2e2510; }
+
+  .session-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .session-left { display: flex; align-items: center; gap: 10px; }
+  .ch-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .ch1 .ch-badge { background: var(--ch1-dim); color: var(--ch1); }
+  .ch2 .ch-badge { background: var(--ch2-dim); color: var(--ch2); }
+  .ch3 .ch-badge { background: var(--ch3-dim); color: var(--ch3); }
+  .ch4 .ch-badge { background: var(--ch4-dim); color: var(--ch4); }
+  .session-title { font-size: 14px; font-weight: 600; color: #fff; }
+  .session-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-top: 1px;
+  }
+
+  /* TOPICS */
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .topic {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 9px;
+  }
+  .topic.hot {
+    color: var(--accent);
+    border-color: #3a2b0a;
+    background: #1c1608;
+  }
+
+  /* BREAK */
+  .break-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .break-line { flex: 1; border-top: 1px dashed var(--border); }
+
+  /* RESOURCES SECTION */
+  .resources { margin-top: 36px; }
+  .res-title {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .res-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s;
+    display: block;
+  }
+  .res-card:hover { border-color: var(--accent); }
+  .res-card-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 5px;
+  }
+  .res-card-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .res-card-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .yt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .yt-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .yt-card:hover { border-color: #f06a6a; }
+  .yt-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #2a1010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .yt-text { flex: 1; }
+  .yt-ch {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 2px;
+  }
+  .yt-title { font-size: 12px; color: var(--text); font-weight: 500; }
+
+  /* TIP */
+  .tip-box {
+    background: var(--ch3-dim);
+    border: 1px solid #3a2b0a;
+    border-left: 3px solid var(--ch3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #d4a843;
+  }
+
+  @media (max-width: 520px) {
+    .hero h1 { font-size: 22px; }
+    .session-head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">HSC ICT · 1.5 Day Revision</div>
+  <h1>ICT Year Final<br>Revision Plan</h1>
+  <p>Chapter 1–4 · সবচেয়ে বেশি CQ আসে এমন টপিক ধরে সাজানো হয়েছে</p>
+
+  <div class="timeline-bar" style="margin-top:18px">
+    <div class="tb-seg" style="flex:1;background:var(--ch1)"></div>
+    <div class="tb-seg" style="flex:0.7;background:var(--ch2)"></div>
+    <div class="tb-seg" style="flex:2.2;background:var(--ch3)"></div>
+    <div class="tb-seg" style="flex:0.7;background:var(--ch4)"></div>
+  </div>
+
+  <div class="ch-legend">
+    <div class="legend-pill"><span class="legend-dot" style="background:var(--ch1)"></span>Ch 1 · ICT</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:var(--ch2)"></span>Ch 2 · Communication</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:var(--ch3)"></span>Ch 3 · Number System ⚡</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:var(--ch4)"></span>Ch 4 · Web Design</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ======= DAY 1 ======= -->
+  <div class="day-block">
+    <div class="day-title">
+      <span class="day-num">DAY 1</span>
+      <span class="day-subtitle">Chapter 1 & 2 + Chapter 3 শুরু</span>
+      <div class="day-rule"></div>
+    </div>
+
+    <!-- Ch 1 Read -->
+    <div class="session ch1">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 1</span>
+          <span class="session-title">Information & Communication Technology — পড়া</span>
+        </div>
+        <span class="session-time">8:00 – 10:00 AM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">ভার্চুয়াল রিয়েলিটি</span>
+        <span class="topic hot">কৃত্রিম বুদ্ধিমত্তা</span>
+        <span class="topic hot">বায়োমেট্রিক</span>
+        <span class="topic hot">জেনেটিক ইঞ্জিনিয়ারিং</span>
+        <span class="topic hot">ন্যানোটেকনোলোজি</span>
+        <span class="topic">রোবটিক্স</span>
+        <span class="topic">ক্রায়োসার্জারি</span>
+        <span class="topic">টেলিমেডিসিন</span>
+      </div>
+    </div>
+
+    <!-- Ch 1 Practice -->
+    <div class="session ch1">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 1</span>
+          <span class="session-title">MCQ + জ্ঞান ও অনুধাবন প্রশ্ন অনুশীলন</span>
+        </div>
+        <span class="session-time">10:00 – 11:00 AM</span>
+      </div>
+      <div class="topics">
+        <span class="topic">জ্ঞানমূলক প্রশ্ন — সংজ্ঞা</span>
+        <span class="topic">অনুধাবন — উদাহরণসহ ব্যাখ্যা</span>
+        <span class="topic">Past CQ — ১টি সম্পূর্ণ</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>☕ Break — 30 min</span><span class="break-line"></span></div>
+
+    <!-- Ch 2 Read (trimmed) -->
+    <div class="session ch2">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 2</span>
+          <span class="session-title">Communication System — মূল টপিক</span>
+        </div>
+        <span class="session-time">11:30 AM – 1:00 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">Transmission Method (Async/Sync/Iso)</span>
+        <span class="topic hot">Twisted Pair, Coaxial, Fiber Optic</span>
+        <span class="topic hot">Bluetooth, WiFi, WiMAX</span>
+        <span class="topic hot">PAN, LAN, CAN, MAN, WAN</span>
+        <span class="topic hot">Bus, Ring, Star, Tree, Mesh Topology</span>
+        <span class="topic hot">Cloud Computing</span>
+      </div>
+    </div>
+
+    <!-- Ch 2 Practice -->
+    <div class="session ch2">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 2</span>
+          <span class="session-title">Topology ডায়াগ্রাম + MCQ drill</span>
+        </div>
+        <span class="session-time">1:00 – 1:30 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic">হাতে Topology আঁকো</span>
+        <span class="topic">পার্থক্য টেবিল মুখস্থ</span>
+        <span class="topic">১টি CQ লেখো</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>🍽 Lunch — 1 hr</span><span class="break-line"></span></div>
+
+    <!-- Ch 3 EARLY START -->
+    <div class="session ch3 heavy">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 3</span>
+          <span class="session-title">⚡ Number System — সংখ্যা রূপান্তর শুরু</span>
+        </div>
+        <span class="session-time">2:30 – 5:00 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">Binary ↔ Decimal ↔ Octal ↔ Hex</span>
+        <span class="topic hot">BCD কোড</span>
+        <span class="topic hot">ASCII কোড</span>
+        <span class="topic hot">1's Complement</span>
+        <span class="topic hot">2's Complement</span>
+        <span class="topic">যোগ–বিয়োগ অনুশীলন (১০+ সমস্যা)</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>🌙 রাতে — হালকা রিভিউ + ৫টি রূপান্তর সমস্যা (30 min)</span><span class="break-line"></span></div>
+  </div>
+
+  <!-- ======= DAY 1.5 = Day 2 morning ======= -->
+  <div class="day-block">
+    <div class="day-title">
+      <span class="day-num" style="color:#34c98a">DAY 2</span>
+      <span class="day-subtitle">Chapter 3 (ভারী) + Chapter 4 (হালকা)</span>
+      <div class="day-rule"></div>
+    </div>
+
+    <!-- Ch 3 Logic -->
+    <div class="session ch3 heavy">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 3</span>
+          <span class="session-title">⚡ Digital Logic & Boolean Algebra</span>
+        </div>
+        <span class="session-time">8:00 – 10:00 AM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">AND / OR / NOT / NAND / NOR / XOR Gate</span>
+        <span class="topic hot">Truth Table তৈরি</span>
+        <span class="topic hot">Boolean Function সরলীকরণ</span>
+        <span class="topic hot">Half Adder (NAND/NOR দিয়ে)</span>
+        <span class="topic hot">Full Adder (Basic gate / HA দিয়ে)</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>☕ Break — 20 min</span><span class="break-line"></span></div>
+
+    <!-- Ch 3 Intensive Practice -->
+    <div class="session ch3 heavy">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 3</span>
+          <span class="session-title">⚡ নিবিড় অনুশীলন — সমস্যা সমাধান</span>
+        </div>
+        <span class="session-time">10:20 AM – 12:30 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">রূপান্তর ১৫+ সমস্যা</span>
+        <span class="topic hot">Complement গণনা</span>
+        <span class="topic hot">যোগের মাধ্যমে বিয়োগ</span>
+        <span class="topic hot">Logic Gate CQ লেখা</span>
+        <span class="topic">Past Board CQ — Ch 3</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>🍽 Lunch — 1 hr</span><span class="break-line"></span></div>
+
+    <!-- Ch 4 Read (trimmed) -->
+    <div class="session ch4">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 4</span>
+          <span class="session-title">Web Design — HTML & Website Concept</span>
+        </div>
+        <span class="session-time">1:30 – 2:45 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic hot">Static vs Dynamic Website</span>
+        <span class="topic hot">Website Structure & Publishing</span>
+        <span class="topic hot">Formatting Tags</span>
+        <span class="topic hot">Nested List</span>
+        <span class="topic hot">Image & Hyperlink</span>
+        <span class="topic hot">Table তৈরি</span>
+      </div>
+    </div>
+
+    <!-- Ch 4 Practice -->
+    <div class="session ch4">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge">CH 4</span>
+          <span class="session-title">HTML হাতে লেখা + Past CQ</span>
+        </div>
+        <span class="session-time">2:45 – 3:45 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic">কাগজে একটি পূর্ণ HTML পেজ লেখো</span>
+        <span class="topic">Table CQ সমাধান</span>
+        <span class="topic">Hyperlink + Image CQ</span>
+      </div>
+    </div>
+
+    <div class="break-row"><span class="break-line"></span><span>☕ Break — 15 min</span><span class="break-line"></span></div>
+
+    <!-- Final sprint -->
+    <div class="session" style="background:var(--surface2);border-color:#1e2535">
+      <div class="session-head">
+        <div class="session-left">
+          <span class="ch-badge" style="background:#1a1e29;color:#aab2cc">সব Ch</span>
+          <span class="session-title">চূড়ান্ত রিভিশন — দুর্বল টপিক + মনে রাখার পয়েন্ট</span>
+        </div>
+        <span class="session-time">4:00 – 5:00 PM</span>
+      </div>
+      <div class="topics">
+        <span class="topic">সব Ch-এর সংজ্ঞা দ্রুত দেখো</span>
+        <span class="topic">দুর্বল টপিক রিভিউ</span>
+        <span class="topic">যে CQ শেষ করোনি সেটা</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      ⚡ <strong>মনে রাখো:</strong> Ch 3 সবচেয়ে বেশি নম্বর দেয় — রূপান্তর ও Logic Gate CQ অবশ্যই শেষ করো। Ch 4-এ HTML Table ও Hyperlink থেকে প্রায় প্রতিবছরই CQ আসে।
+    </div>
+  </div>
+
+  <!-- ======= STUDY MATERIAL ======= -->
+  <div class="resources" style="margin-top:48px">
+    <div style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:28px">
+      <div class="hero-label" style="margin-bottom:6px">📚 টপিক এক্সপ্লেনেশন</div>
+      <div style="font-size:20px;font-weight:700;color:#fff">বোর্ড CQ টপিক — সহজ ব্যাখ্যা</div>
+      <div style="color:var(--muted);font-size:13px;margin-top:4px">Chapter 1–4 · সবচেয়ে বেশি আসা টপিকগুলোর সংক্ষিপ্ত নোট</div>
+    </div>
+
+    <!-- CH 1 TOPICS -->
+    <div class="study-ch-label" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ch1);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Chapter 1 — ICT</div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch1);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🥽 ভার্চুয়াল রিয়েলিটি (Virtual Reality)</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7">কম্পিউটার প্রযুক্তি ব্যবহার করে তৈরি এক ধরনের <strong style="color:var(--text)">কৃত্রিম পরিবেশ</strong> যেখানে ব্যবহারকারী বাস্তবের মতো অনুভব করে। VR হেডসেট পরে ব্যবহারকারী দেখে, শোনে এবং অনুভব করতে পারে।<br><br>
+      <span style="color:var(--ch1);font-weight:500">উপাদান:</span> হেডসেট, গ্লাভস, সেন্সর<br>
+      <span style="color:var(--ch1);font-weight:500">ব্যবহার:</span> চিকিৎসা (অস্ত্রোপচার প্রশিক্ষণ), শিক্ষা, গেমিং, সামরিক প্রশিক্ষণ<br>
+      <span style="color:var(--ch1);font-weight:500">ধরন:</span> Immersive VR, Non-Immersive VR, Semi-Immersive VR</p>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch1);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🤖 কৃত্রিম বুদ্ধিমত্তা (Artificial Intelligence)</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7">মেশিনকে মানুষের মতো <strong style="color:var(--text)">চিন্তা করা, সিদ্ধান্ত নেওয়া এবং সমস্যা সমাধান</strong> করার ক্ষমতা দেওয়ার প্রযুক্তি।<br><br>
+      <span style="color:var(--ch1);font-weight:500">শাখা:</span> Machine Learning, Deep Learning, NLP, Computer Vision<br>
+      <span style="color:var(--ch1);font-weight:500">ব্যবহার:</span> Chatbot, স্বয়ংক্রিয় গাড়ি, রোগ নির্ণয়, ভয়েস অ্যাসিস্ট্যান্ট (Siri, Google)<br>
+      <span style="color:var(--ch1);font-weight:500">বৈশিষ্ট্য:</span> শেখার ক্ষমতা, অভিযোজন, যুক্তি প্রদর্শন</p>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch1);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🔬 বায়োমেট্রিক (Biometric)</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7">মানুষের <strong style="color:var(--text)">শারীরিক বা আচরণগত বৈশিষ্ট্য</strong> ব্যবহার করে পরিচয় শনাক্তকরণের পদ্ধতি।<br><br>
+      <span style="color:var(--ch1);font-weight:500">শারীরিক:</span> আঙুলের ছাপ (Fingerprint), চোখের রেটিনা, মুখমণ্ডল, DNA<br>
+      <span style="color:var(--ch1);font-weight:500">আচরণগত:</span> কণ্ঠস্বর, স্বাক্ষর, টাইপিং প্যাটার্ন<br>
+      <span style="color:var(--ch1);font-weight:500">ব্যবহার:</span> পাসপোর্ট, ব্যাংক, অফিস উপস্থিতি, স্মার্টফোন আনলক</p>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch1);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🧬 জেনেটিক ইঞ্জিনিয়ারিং (Genetic Engineering)</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7">জীবের <strong style="color:var(--text)">DNA পরিবর্তন বা পুনর্বিন্যাস</strong> করে নতুন বৈশিষ্ট্য তৈরির প্রযুক্তি।<br><br>
+      <span style="color:var(--ch1);font-weight:500">প্রক্রিয়া:</span> Recombinant DNA technology — জিন কাটা ও জোড়া লাগানো<br>
+      <span style="color:var(--ch1);font-weight:500">ব্যবহার:</span> উন্নত ফসল (GMO), ইনসুলিন তৈরি, রোগ চিকিৎসা, ক্লোনিং<br>
+      <span style="color:var(--ch1);font-weight:500">সুবিধা:</span> রোগ প্রতিরোধ, অধিক উৎপাদন | <span style="color:#f06a6a">অসুবিধা:</span> নৈতিক প্রশ্ন, পার্শ্বপ্রতিক্রিয়া</p>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch1);border-radius:10px;padding:18px;margin-bottom:24px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">⚛️ ন্যানোটেকনোলোজি (Nanotechnology)</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.7"><strong style="color:var(--text)">1–100 ন্যানোমিটার</strong> স্কেলে পদার্থ নিয়ে কাজ করার প্রযুক্তি। (1 nm = 10⁻⁹ m)<br><br>
+      <span style="color:var(--ch1);font-weight:500">ব্যবহার:</span> ওষুধ সরাসরি টিউমারে পৌঁছানো, ক্ষুদ্র সার্কিট, শক্তিশালী উপকরণ<br>
+      <span style="color:var(--ch1);font-weight:500">চিকিৎসায়:</span> Nanobots — শরীরের ভেতরে গিয়ে চিকিৎসা করে<br>
+      <span style="color:var(--ch1);font-weight:500">প্রধান বৈশিষ্ট্য:</span> অতি ক্ষুদ্র, অত্যন্ত শক্তিশালী, নির্ভুল</p>
+    </div>
+
+    <!-- CH 2 TOPICS -->
+    <div class="study-ch-label" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ch2);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Chapter 2 — Communication System</div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch2);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">📡 Transmission Method</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px">
+        <tr style="background:var(--surface2)">
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">পদ্ধতি</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">বৈশিষ্ট্য</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">ব্যবহার</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Asynchronous</td>
+          <td style="padding:7px 10px;color:var(--muted)">Start/Stop bit ব্যবহার করে, একটি character একসাথে</td>
+          <td style="padding:7px 10px;color:var(--muted)">Keyboard, Mouse</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Synchronous</td>
+          <td style="padding:7px 10px;color:var(--muted)">Clock signal ব্যবহার করে, Block আকারে ডেটা</td>
+          <td style="padding:7px 10px;color:var(--muted)">LAN, High speed transfer</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Isochronous</td>
+          <td style="padding:7px 10px;color:var(--muted)">নির্দিষ্ট সময়ে ডেটা, Real-time নিশ্চিত</td>
+          <td style="padding:7px 10px;color:var(--muted)">Video call, Live streaming</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch2);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🔌 তারযুক্ত মাধ্যম — তুলনা</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <tr style="background:var(--surface2)">
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">মাধ্যম</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">গতি</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">বৈশিষ্ট্য</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Twisted Pair</td>
+          <td style="padding:7px 10px;color:var(--muted)">100 Mbps পর্যন্ত</td>
+          <td style="padding:7px 10px;color:var(--muted)">সস্তা, বাড়িতে ব্যবহার, EMI সংবেদনশীল</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Coaxial Cable</td>
+          <td style="padding:7px 10px;color:var(--muted)">~500 Mbps</td>
+          <td style="padding:7px 10px;color:var(--muted)">Cable TV, EMI কম, মাঝারি খরচ</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Fiber Optic</td>
+          <td style="padding:7px 10px;color:var(--muted)">Gbps – Tbps</td>
+          <td style="padding:7px 10px;color:var(--muted)">আলোর মাধ্যমে, সবচেয়ে দ্রুত, EMI নেই, দামি</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch2);border-radius:10px;padding:18px;margin-bottom:24px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🌐 Network Topology — মূল পার্থক্য</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <tr style="background:var(--surface2)">
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">Topology</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">গঠন</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch2);border-bottom:1px solid var(--border)">সুবিধা / অসুবিধা</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Bus</td>
+          <td style="padding:7px 10px;color:var(--muted)">একটি মূল তারে সব যুক্ত</td>
+          <td style="padding:7px 10px;color:var(--muted)">সস্তা / একটি নষ্ট হলে সব বন্ধ</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Ring</td>
+          <td style="padding:7px 10px;color:var(--muted)">বৃত্তাকারে সংযুক্ত</td>
+          <td style="padding:7px 10px;color:var(--muted)">Collision নেই / একটি বিকল হলে নেটওয়ার্ক বন্ধ</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Star</td>
+          <td style="padding:7px 10px;color:var(--muted)">Hub/Switch কেন্দ্রে</td>
+          <td style="padding:7px 10px;color:var(--muted)">সহজ ব্যবস্থাপনা / Hub নষ্ট হলে সব বন্ধ</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Mesh</td>
+          <td style="padding:7px 10px;color:var(--muted)">প্রতিটি Node সরাসরি সংযুক্ত</td>
+          <td style="padding:7px 10px;color:var(--muted)">অত্যন্ত নির্ভরযোগ্য / খরচ বেশি</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 10px;color:var(--text);font-weight:500">Tree</td>
+          <td style="padding:7px 10px;color:var(--muted)">Star-এর সমন্বয়, শ্রেণিবদ্ধ</td>
+          <td style="padding:7px 10px;color:var(--muted)">Scalable / Root নষ্ট হলে সমস্যা</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+    <!-- CH 3 TOPICS -->
+    <div class="study-ch-label" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ch3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Chapter 3 — Number System ⚡</div>
+
+    <div class="study-card" style="background:var(--surface2);border:1px solid #2e2510;border-left:3px solid var(--ch3);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:10px">🔢 সংখ্যা রূপান্তর — দ্রুত পদ্ধতি</div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ch3);margin-bottom:6px">Decimal → Binary (ভাগ পদ্ধতি)</div>
+      <div style="background:var(--bg);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px">
+        উদাহরণ: 13 → Binary<br>
+        13 ÷ 2 = 6 ... <span style="color:var(--ch3)">1</span><br>
+         6 ÷ 2 = 3 ... <span style="color:var(--ch3)">0</span><br>
+         3 ÷ 2 = 1 ... <span style="color:var(--ch3)">1</span><br>
+         1 ÷ 2 = 0 ... <span style="color:var(--ch3)">1</span><br>
+        নিচ থেকে উপরে পড়ো → <span style="color:#fff;font-weight:600">1101</span>
+      </div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ch3);margin-bottom:6px">Binary → Decimal (ঘাত পদ্ধতি)</div>
+      <div style="background:var(--bg);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px">
+        উদাহরণ: 1101 → Decimal<br>
+        1×2³ + 1×2² + 0×2¹ + 1×2⁰<br>
+        = 8 + 4 + 0 + 1 = <span style="color:#fff;font-weight:600">13</span>
+      </div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ch3);margin-bottom:6px">Binary → Hex (৪টি গ্রুপ)</div>
+      <div style="background:var(--bg);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">
+        উদাহরণ: 11011010 → Hex<br>
+        <span style="color:var(--ch3)">1101</span> | <span style="color:#7c6af5">1010</span><br>
+        = <span style="color:var(--ch3)">D</span> | <span style="color:#7c6af5">A</span> = <span style="color:#fff;font-weight:600">DA</span><br><br>
+        মনে রাখো: A=10, B=11, C=12, D=13, E=14, F=15
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface2);border:1px solid #2e2510;border-left:3px solid var(--ch3);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:10px">➕ 1's ও 2's Complement দিয়ে বিয়োগ</div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ch3);margin-bottom:6px">1's Complement পদ্ধতি</div>
+      <div style="background:var(--bg);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px">
+        উদাহরণ: 1010 - 0110<br>
+        ধাপ ১: 0110 এর 1's complement = <span style="color:var(--ch3)">1001</span><br>
+        ধাপ ২: 1010 + 1001 = <span style="color:var(--ch3)">1</span>0011<br>
+        ধাপ ৩: Carry আছে → 0011 + 1 = <span style="color:#fff;font-weight:600">0100</span> ✓
+      </div>
+
+      <div style="font-size:13px;font-weight:600;color:var(--ch3);margin-bottom:6px">2's Complement পদ্ধতি</div>
+      <div style="background:var(--bg);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">
+        উদাহরণ: 1010 - 0110<br>
+        ধাপ ১: 0110 এর 2's complement = 1001 + 1 = <span style="color:var(--ch3)">1010</span><br>
+        ধাপ ২: 1010 + 1010 = <span style="color:var(--ch3)">1</span>0100<br>
+        ধাপ ৩: Carry বাদ দাও → <span style="color:#fff;font-weight:600">0100</span> ✓
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface2);border:1px solid #2e2510;border-left:3px solid var(--ch3);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:10px">🔲 Logic Gate — Truth Table সহ</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+        <div style="background:var(--bg);border-radius:8px;padding:12px">
+          <div style="color:var(--ch3);font-weight:600;font-size:13px;margin-bottom:6px">AND Gate</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);line-height:1.9">
+            A B | Y<br>0 0 | <span style="color:#f06a6a">0</span><br>0 1 | <span style="color:#f06a6a">0</span><br>1 0 | <span style="color:#f06a6a">0</span><br>1 1 | <span style="color:var(--ch2)">1</span>
+          </div>
+          <div style="color:var(--muted);font-size:11px;margin-top:6px">সবগুলো 1 হলেই 1</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:12px">
+          <div style="color:var(--ch3);font-weight:600;font-size:13px;margin-bottom:6px">OR Gate</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);line-height:1.9">
+            A B | Y<br>0 0 | <span style="color:#f06a6a">0</span><br>0 1 | <span style="color:var(--ch2)">1</span><br>1 0 | <span style="color:var(--ch2)">1</span><br>1 1 | <span style="color:var(--ch2)">1</span>
+          </div>
+          <div style="color:var(--muted);font-size:11px;margin-top:6px">যেকোনো একটি 1 হলেই 1</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:12px">
+          <div style="color:var(--ch3);font-weight:600;font-size:13px;margin-bottom:6px">NAND Gate</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);line-height:1.9">
+            A B | Y<br>0 0 | <span style="color:var(--ch2)">1</span><br>0 1 | <span style="color:var(--ch2)">1</span><br>1 0 | <span style="color:var(--ch2)">1</span><br>1 1 | <span style="color:#f06a6a">0</span>
+          </div>
+          <div style="color:var(--muted);font-size:11px;margin-top:6px">AND-এর বিপরীত (Universal Gate)</div>
+        </div>
+        <div style="background:var(--bg);border-radius:8px;padding:12px">
+          <div style="color:var(--ch3);font-weight:600;font-size:13px;margin-bottom:6px">XOR Gate</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);line-height:1.9">
+            A B | Y<br>0 0 | <span style="color:#f06a6a">0</span><br>0 1 | <span style="color:var(--ch2)">1</span><br>1 0 | <span style="color:var(--ch2)">1</span><br>1 1 | <span style="color:#f06a6a">0</span>
+          </div>
+          <div style="color:var(--muted);font-size:11px;margin-top:6px">দুটি আলাদা হলে 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface2);border:1px solid #2e2510;border-left:3px solid var(--ch3);border-radius:10px;padding:18px;margin-bottom:24px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:10px">➕ Half Adder ও Full Adder</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px">
+        <span style="color:var(--ch3);font-weight:600">Half Adder:</span> দুটি bit যোগ করে Sum ও Carry বের করে<br>
+        Sum = A XOR B &nbsp;|&nbsp; Carry = A AND B<br><br>
+        <span style="color:var(--ch3);font-weight:600">Full Adder:</span> তিনটি bit যোগ করে (A, B, Cin)<br>
+        Sum = A XOR B XOR Cin<br>
+        Carry = (A AND B) OR (Cin AND (A XOR B))<br><br>
+        <span style="color:var(--ch3);font-weight:600">NAND দিয়ে HA:</span> XOR ও AND উভয়ই NAND দিয়ে তৈরি করা যায় (Universal Gate)
+      </div>
+    </div>
+
+    <!-- CH 4 TOPICS -->
+    <div class="study-ch-label" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ch4);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Chapter 4 — Web Design</div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch4);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:8px">🌐 Static vs Dynamic Website</div>
+      <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <tr style="background:var(--surface2)">
+          <th style="padding:8px 10px;text-align:left;color:var(--ch4);border-bottom:1px solid var(--border)">বিষয়</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch4);border-bottom:1px solid var(--border)">Static</th>
+          <th style="padding:8px 10px;text-align:left;color:var(--ch4);border-bottom:1px solid var(--border)">Dynamic</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text)">ভাষা</td>
+          <td style="padding:7px 10px;color:var(--muted)">HTML, CSS</td>
+          <td style="padding:7px 10px;color:var(--muted)">PHP, Python, JS, Database</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:7px 10px;color:var(--text)">পরিবর্তন</td>
+          <td style="padding:7px 10px;color:var(--muted)">Developer পরিবর্তন করে</td>
+          <td style="padding:7px 10px;color:var(--muted)">স্বয়ংক্রিয়ভাবে পরিবর্তন হয়</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 10px;color:var(--text)">উদাহরণ</td>
+          <td style="padding:7px 10px;color:var(--muted)">Portfolio, Brochure site</td>
+          <td style="padding:7px 10px;color:var(--muted)">Facebook, E-commerce</td>
+        </tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="study-card" style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--ch4);border-radius:10px;padding:18px;margin-bottom:12px">
+      <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:10px">💻 গুরুত্বপূর্ণ HTML Tags</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
+        <div style="background:var(--bg);border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">
+          <div style="color:var(--ch4);margin-bottom:4px">Formatting</div>
+          &lt;b&gt; Bold &lt;/b&gt;<br>
+          &lt;i&gt; Italic &lt;/i&gt;<br>
+          &lt;u&gt; Underline &lt;/u&gt;<br>
+          &lt;sup&gt; Superscript &lt;/sup&gt;<br>
+          &lt;sub&gt; Subscript &lt;/sub&gt;
+        </div>
+        <div style="background:var(--bg);border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">
+          <div style="color:var(--ch4);margin-bottom:4px">List</div>
+          &lt;ul&gt; Unordered List<br>
+          &lt;ol&gt; Ordered List<br>
+          &lt;li&gt; List Item<br><br>
+          Nested: &lt;ul&gt; এর ভেতরে আরেকটি &lt;ul&gt;
+        </div>
+        <div style="background:var(--bg);border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">
+          <div style="color:var(--ch4);margin-bottom:4px">Image & Link</div>
+          &lt;img src="" alt=""&gt;<br>
+          &lt;a href="url"&gt;text&lt;/a&gt;<br><br>
+          target="_blank" → নতুন Tab
+        </div>
+        <div style="background:var(--bg);border-radius:6px;padding:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">
+          <div style="color:var(--ch4);margin-bottom:4px">Table</div>
+          &lt;table&gt;<br>
+          &nbsp;&lt;tr&gt; → Row<br>
+          &nbsp;&nbsp;&lt;th&gt; → Header cell<br>
+          &nbsp;&nbsp;&lt;td&gt; → Data cell<br>
+          colspan / rowspan → merge
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="resources">
+    <div class="res-title" style="margin-top:40px">📄 শিক্ষকের নোট</div>
+    <div class="res-grid">
+      <a class="res-card" href="https://docs.google.com/document/d/1z6UdfuI7k2CYbQkyMAtyrzPkSFY-iLQX9Owm82_uqKc/edit?usp=sharing" target="_blank">
+        <div class="res-card-label">Google Docs</div>
+        <div class="res-card-title">HSC ICT জ্ঞানমূলক প্রশ্ন উত্তর</div>
+        <div class="res-card-sub">জ্ঞান স্তরের সব প্রশ্ন ও উত্তর →</div>
+      </a>
+      <a class="res-card" href="https://docs.google.com/document/d/1LvXCu2i_fH9ljXtu06tz06juTwnkc3JRLuWZB_RQvWk/edit?usp=sharing" target="_blank">
+        <div class="res-card-label">Google Docs</div>
+        <div class="res-card-title">HSC ICT অনুধাবনমূলক প্রশ্ন উত্তর</div>
+        <div class="res-card-sub">অনুধাবন স্তরের সব প্রশ্ন ও উত্তর →</div>
+      </a>
+    </div>
+
+    <div class="res-title" style="margin-top:28px">▶ YouTube — Chapter 4 (HTML)</div>
+    <div class="yt-grid">
+      <a class="yt-card" href="https://youtu.be/Vk0n1JuXB6U?si=f1oUCUyg2Kj8nAc1" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">Formatting Tags | বোর্ড প্রশ্ন সমাধান</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/sEh87DTwQ84?si=UVqz-qWavx-QFkNs" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">HTML List | Dhaka Board 25</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/VSqkvjtPbdg?si=CkSqGVrEdwA-Uypq" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">HTML List | Board Questions Solve</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/dyUkmM4K2ys?si=4soZIP6bLfWtlByy" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">Image ও Hyperlink | বোর্ড প্রশ্ন সমাধান</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/FW4_GjkFW3U?si=xavW5m51L2T985Ea" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">HTML Table | বোর্ড প্রশ্ন সমাধান</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/hQFdoZjZTW4?si=Wr3DLOGOeg5JC3I8" target="_blank">
+        <div class="yt-icon">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch4)">CH 4 · HTML</div>
+          <div class="yt-title">HTML Table | Barisal Board 25</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="res-title" style="margin-top:28px">▶ YouTube — Chapter 3 (রূপান্তর)</div>
+    <div class="yt-grid">
+      <a class="yt-card" href="https://youtu.be/jPfsoTaR-hY?si=hJjEOQ8ip--jRVDA" target="_blank">
+        <div class="yt-icon" style="background:#1c1f08">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch3)">CH 3 · Number</div>
+          <div class="yt-title">সকল রূপান্তর</div>
+        </div>
+      </a>
+      <a class="yt-card" href="https://youtu.be/pG7RstH1s7Q?si=TKtxfbQ6g924H3UW" target="_blank">
+        <div class="yt-icon" style="background:#1c1f08">▶</div>
+        <div class="yt-text">
+          <div class="yt-ch" style="color:var(--ch3)">CH 3 · Number</div>
+          <div class="yt-title">যোগের মাধ্যমে বিয়োগ | বোর্ড প্রশ্নের সমাধান</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
